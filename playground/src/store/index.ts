@@ -67,8 +67,6 @@ export class ReplStore implements Store {
     }
   }
 
-  vueVersion?: string | undefined
-
   setActive = (filename: string): void => {
     this.state.activeFile = this.state.files[filename]
   }
@@ -88,11 +86,25 @@ export class ReplStore implements Store {
     if (!file.hidden)
       this.setActive(file.filename)
   }
+
   /**
    * 删除文件
    * @param filename 文件名
    * @returns
    */
+  deleteFile = (filename: string): void => {
+    // 如果删除的 Fighting Design 的配置文件
+    if (filename === fightingPlugin)
+      return
+
+    // 提示框
+    if (confirm(`你确定删除 ${filename} 吗？`)) {
+      if (this.state.activeFile.filename === filename)
+        this.state.activeFile = this.state.files[this.state.mainFile]
+
+      delete this.state.files[filename]
+    }
+  }
 
   serialize = (): string => {
     return `#${utoa(JSON.stringify(this.getFiles()))}`
