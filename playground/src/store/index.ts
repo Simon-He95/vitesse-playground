@@ -67,8 +67,6 @@ export class ReplStore implements Store {
     }
   }
 
-  deleteFile: (filename: string) => void
-
   vueVersion?: string | undefined
 
   setActive = (filename: string): void => {
